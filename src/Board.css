@@ -1,0 +1,26 @@
+#board{
+    display: grid;
+    /* grid-template-columns: 1fr 1fr 1fr; */
+    grid-row-gap: 10vh;
+    padding-left: 20vw;
+    transition: 2s;
+    background-color: #2196F3;
+}
+.cell{
+    /* border: black 3px solid; */
+    width: 20vw;
+    height: 20vw;
+}
+.pirate{
+    width: 100px;
+    height: 160px;
+    position: absolute;
+    top: 15%;
+    left: 25%;
+    transition: 2s;
+}
+@media only screen and (max-width: 600px) {
+    #board{
+        padding-left: 0vw;
+    }
+  }
