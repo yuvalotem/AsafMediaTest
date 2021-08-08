@@ -30,6 +30,13 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
 import MapIcon from '@material-ui/icons/Map';
 import CasinoIcon from '@material-ui/icons/Casino';
+import dice1 from './assets/dice1.jpg'
+import dice2 from './assets/dice2.jpg'
+import dice3 from './assets/dice3.jpg'
+import dice4 from './assets/dice4.jpg'
+import dice5 from './assets/dice5.jpg'
+import dice6 from './assets/dice6.jpg'
+
 
 const drawerWidth = 200;
 
@@ -93,6 +100,8 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(3),
   }
 }))
+
+const dices = [dice1, dice2, dice3, dice4, dice5, dice6]
 
 const SideBar = props => {
 
@@ -175,7 +184,7 @@ const SideBar = props => {
           className={classes.link}>
           <ListItem button key='Calendar'>
             <ListItemIcon>
-              <EventIcon />
+              <img style={{width: "20px", hieght: "20px"}} src={dices[number-1]} />
             </ListItemIcon>
             <ListItemText primary={number} />
           </ListItem>

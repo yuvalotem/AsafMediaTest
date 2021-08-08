@@ -13,11 +13,23 @@ import {
 
   function Board(props) {
       const { number, screen } = props
-      const fullGrid = {
-        gridTemplateColumns: '1fr 1fr 1fr',
+      const fullScreen = {
+        backgroundSize: 'auto'
     }
-      const partGrid = {
-        gridTemplateColumns: '1fr 1fr',
+      const leftPartScreen = {
+        backgroundSize: 'cover'
+    }
+      const rightPartScreen = {
+        backgroundPosition: "0px 0px"
+    }
+      const lowPartScreen = {
+        backgroundPosition: "200px -100px"
+    }
+      const lowRightPartScreen = {
+        backgroundPosition: "0px -100px"
+    }
+    const changeScreenPosition = (x, y) =>{
+
     }
       const positionsSmallScreen =[
           {
@@ -26,7 +38,15 @@ import {
           },
           {
             top: "15%",
+            left: "25%",
+          },
+          {
+            top: "15%",
             left: "65%",
+          },
+          {
+            top: "70%",
+            left: "25%",
           },
           {
             top: "70%",
@@ -51,12 +71,12 @@ import {
             left: "80%",
           },
           {
-            top: "75%",
-            left: "25%",
-          },
-          {
             top: "70%",
             left: "53%",
+          },
+          {
+            top: "75%",
+            left: "25%",
           },
           {
             top: "70%",
@@ -64,25 +84,39 @@ import {
           }
       ]
     return (
-      <div id="board" style={screen === 'full' ? fullGrid : partGrid}>
+      <div id="board" style={
+          screen === 'full' ? fullScreen :
+          number === 5 ? leftPartScreen && lowPartScreen :
+          number === 6 ? lowRightPartScreen :
+          number !== 1 ? leftPartScreen && rightPartScreen : leftPartScreen}>
         <img style={screen === 'full' ?
         positionsFullScreen[number-1]:
         positionsSmallScreen[number-1]}
         src={pirate} class="pirate" />
-        {number < 3 || screen === 'full' ?
+        {/* {(number === 1 ||  number === 5)  & screen !== 'full' ?
             <Fragment>
                 <div class="cell"></div>
                 <div class="cell"><img src={barrel} id="barrel" /></div>
-            </Fragment>
-            : null}
-          <div class="cell"><img src={Dragon} id="Dragon" /></div>
-          <div class="cell"><img src={treasue} id="treasue" /></div>
-          {number > 2 || screen === 'full' ?
-            <Fragment>
                 <div class="cell"><img src={bottel} id="bottel" /></div>
+                <div class="cell"><img src={treasue} id="treasue" /></div>
+            </Fragment>
+            : screen !== 'full' ?
+            <Fragment>
+                <div class="cell"><img src={barrel} id="barrel" /></div>
+                <div class="cell"><img src={Dragon} id="Dragon" /></div>
+                <div class="cell"><img src={treasue} id="treasue" /></div>
                 <div class="cell"><img src={island} id="island" /></div>
             </Fragment>
-            : null}
+            :
+            <Fragment>
+                <div class="cell"></div>
+                <div class="cell"><img src={barrel} id="barrel" /></div>
+                <div class="cell"><img src={Dragon} id="Dragon" /></div>
+                <div class="cell"><img src={bottel} id="bottel" /></div>
+                <div class="cell"><img src={treasue} id="treasue" /></div>
+                <div class="cell"><img src={island} id="island" /></div>
+            </Fragment>
+            } */}
 
       </div>
     );
