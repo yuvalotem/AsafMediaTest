@@ -10,7 +10,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(express.static(path.join(__dirname, 'build')));
 
-const connect = process.env.MONGODB_URI || "mongodb://localhost/Image"
+const connect = "mongodb://localhost/asafmedia"
 
 mongoose.connect(connect, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => console.log("Database Connected Successfully"))

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import {
   CssBaseline,
   Divider,
@@ -15,6 +15,7 @@ import {
   Grid,
   Avatar
 } from '@material-ui/core'
+import Axios from 'axios';
 import {
   Home as HomeIcon,
   Event as EventIcon,
@@ -122,35 +123,40 @@ const SideBar = props => {
     openMessage()
   }
 
+//   useEffect(() => {
+//     const fetchPicsFromDB = async () => {
+//         const response = await Axios.get('http://localhost:4000/log')
+//         console.log(response.data);
+//       }
+//     fetchPicsFromDB()
+// }, [])
+
+
   const diceRoll = () => {
-      const cubeNumber = Math.floor(Math.random() * 6) + 1
+    mobileOpen === true && handleDrawerToggle()
+    const cubeNumber = Math.floor(Math.random() * 6) + 1
+    const response = Axios.post('http://localhost:4000/log', {action: "player rolled " + cubeNumber})
     setNumber(cubeNumber)
     if(cubeNumber === 1){
         makeAlert("You stayed at the same place, Game over!" , 'error')
     }
     if(cubeNumber === 2){
         if(Math.floor(Math.random() * 2) == 0){
-            // alert("You drank spoiled rom, Game over!")
             makeAlert("You drank spoiled rom, Game over!" , 'error')
         }else{
-            // alert("You drank Good rom, You Win!")
             makeAlert("You drank Good rom, You Win!" , 'success')
         }
     }
     if(cubeNumber === 3){
-        // alert("Dragon, Game over!")
         makeAlert("Dragon, Game over!" , 'error')
     }
     if(cubeNumber === 4){
-        // alert("Treasure, You Win!")
         makeAlert("Treasure, You Win!" , 'success')
     }
     if(cubeNumber === 5){
-        // alert("Funny sentence")
         makeAlert("Funny sentence" , 'info')
     }
     if(cubeNumber === 6){
-        // alert("Youve made it to land, You Win!")
         makeAlert("Youve made it to land, You Win!" , 'success')
     }
   }
@@ -189,44 +195,7 @@ const SideBar = props => {
             <ListItemText primary={number} />
           </ListItem>
         </Link>
-            {/* {user.type.id === 1
-              ?
-              <Fragment>
-                <Link to='/home/serviceproviders'
-                  onClick={() => localStorage.setItem('currentRoute', '/home/serviceproviders')}
-                  className={classes.link}>
-                      <ListItem button key='Service-Providers'>
-                          <ListItemIcon>
-                              <GroupIcon />
-                          </ListItemIcon>
-                          <ListItemText primary='Service Providers'/>
-                      </ListItem>
-                  </Link>
-                <Link to='/home/charts'
-                  onClick={() => localStorage.setItem('currentRoute', '/home/serviceproviders')}
-                  className={classes.link}>
-                      <ListItem button key='Analytics'>
-                          <ListItemIcon>
-                              <TrendingUpIcon />
-                          </ListItemIcon>
-                          <ListItemText primary='Analytics'/>
-                      </ListItem>
-                  </Link>
 
-              </Fragment>
-              : <Fragment>
-               <Link to='/home/todos'
-                 onClick={() => localStorage.setItem('currentRoute', '/home/allTodos')}
-                 className={classes.link}>
-                     <ListItem button key='My Todo'>
-                         <ListItemIcon>
-                             <BookIcon />
-                         </ListItemIcon>
-                         <ListItemText primary='My Todo'/>
-                     </ListItem>
-                 </Link>
-             </Fragment>
-            } */}
         <Link to='/home/chat'
           onClick={() => localStorage.setItem('currentRoute', '/home/chat')}
           className={classes.link}>

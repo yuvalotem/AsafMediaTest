@@ -1,8 +1,4 @@
 import React, { Fragment, useState } from 'react'
-import {
-    Snackbar,
-    Alert
-  } from '@material-ui/core';
 import WindowDimensions from './hooks/WindowDimensions'
 import './Board.css';
 import pirate from './assets/pirate.png'
@@ -10,8 +6,8 @@ import pirate from './assets/pirate.png'
 
   function Board(props) {
       const { number, screen } = props
-      const { height, width } = WindowDimensions();
-      const isMobile = width < 1100
+      const { width } = WindowDimensions();
+      const isMobile = width < 1000
 
       const imageSize = {
         backgroundSize: isMobile ? "2000px 800px" : '2500px 1200px'
@@ -36,33 +32,31 @@ import pirate from './assets/pirate.png'
         ...imageSize,
         backgroundPosition: isMobile ? "-630px -120px" :"-400px -100px"
     }
-    const changeScreenPosition = (x, y) =>{
 
-    }
       const positionsSmallScreen =[
           {
             top: isMobile ? "-10%" : "23%",
-            left: isMobile ? "5%" : "28%",
+            left: isMobile ? "5%" : "430px",
           },
           {
             top: isMobile ? "-10%" : "15%",
-            left: isMobile ? "5%" :"26%",
+            left: isMobile ? "5%" :"400px",
           },
           {
             top: isMobile ? "5%" : "35%",
-            left:  isMobile ? "68%" : "65%",
+            left:  isMobile ? "68%" : "1000px",
           },
           {
             top: isMobile ? "28%" : "50%",
-            left: isMobile ? "8%" :"30%",
+            left: isMobile ? "8%" :"450px",
           },
           {
             top: isMobile ? "45%" : "60%",
-            left: isMobile ? "8%" : "36%",
+            left: isMobile ? "8%" : "550px",
           },
           {
             top: isMobile ? "40%" : "58%",
-            left: "65%",
+            left: isMobile ? "480px" : "1000px",
           }
       ]
       const pirateSizeFullScreen =
@@ -74,32 +68,32 @@ import pirate from './assets/pirate.png'
           {
             ...pirateSizeFullScreen,
             top: isMobile? "13%" : "23%",
-            left: isMobile? "1%" : "19%",
+            left: isMobile? "1%" : "290px",
           },
           {
             ...pirateSizeFullScreen,
             top: isMobile? "7%" : "18%",
-            left: isMobile? "31%" : "37%",
+            left: isMobile? "31%" : "570px",
           },
           {
             ...pirateSizeFullScreen,
             top: isMobile? "20%" :"25%",
-            left: isMobile? "70%" :"60%",
+            left: isMobile? "70%" :"930px",
           },
           {
             ...pirateSizeFullScreen,
             top: isMobile? "40%" : "45%",
-            left: isMobile? "33%" : "40%",
+            left: isMobile? "33%" : "600px",
           },
           {
             ...pirateSizeFullScreen,
             top: "55%",
-            left: isMobile? "2%" :"20%",
+            left: isMobile? "2%" :"300px",
           },
           {
             ...pirateSizeFullScreen,
             top: "55%",
-            left: isMobile? "65%" :"60%"
+            left: isMobile? "65%" :"920px"
           }
       ]
 
@@ -113,7 +107,7 @@ import pirate from './assets/pirate.png'
               <img style={screen === 'full' ?
               positionsFullScreen[number-1]:
               positionsSmallScreen[number-1]}
-              src={pirate} class="pirate" />
+              src={pirate} className="pirate" />
               {/* {(number === 1 ||  number === 5)  & screen !== 'full' ?
                   <Fragment>
                       <div class="cell"></div>

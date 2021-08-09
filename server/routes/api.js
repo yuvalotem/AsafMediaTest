@@ -1,30 +1,42 @@
 const express = require('express')
-// const Image = require('../../Image')
+const Sentence = require('../DB/Sentence')
+const Log = require('../DB/Log')
+var ip = require("ip");
 
 const route = express()
 
-// route.use(function (req, res, next) {
-//     res.header('Access-Control-Allow-Origin', '*')
-//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-//     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With')
+route.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With')
 
-//     next()
-// })
+    next()
+})
 
 route.get('/sentence', async function (req, res){
-    const images = await Image.find({})
-    res.send(images)
+    const Sentences = await Sentence.find({})
+    res.send(Sentences)
+})
+
+route.get("/log", async (req, res) => {
+    const newLog = await Log.find({})
+    res.send(newLog)
 })
 
 route.post("/log", async (req, res) => {
-    const i = new Image(req.body)
-    await i.save()
-    res.send(i)
+    const { action } = req.body
+    const newLog = new Log({
+        IP: ip.address(),
+        timeStamp: Date.now(),
+        action: action
+    })
+    await newLog.save()
+    res.send(newLog)
 })
 
-route.delete('/image/:id', async function (req, res){
+route.delete('/Sentence/:id', async function (req, res){
     const {id} = req.params
-    const removed = await Image.findByIdAndRemove(id)
+    const removed = await Sentence.findByIdAndRemove(id)
     res.send(removed)
 })
 
