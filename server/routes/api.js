@@ -14,13 +14,8 @@ route.use(function (req, res, next) {
 })
 
 route.get('/sentence', async function (req, res){
-    const Sentences = await Sentence.find({})
-    res.send(Sentences)
-})
-
-route.get("/log", async (req, res) => {
-    const newLog = await Log.find({})
-    res.send(newLog)
+    const sentence = await Sentence.find({number: Math.floor(Math.random() * 5) + 1})
+    res.send(sentence)
 })
 
 route.post("/log", async (req, res) => {
@@ -32,12 +27,6 @@ route.post("/log", async (req, res) => {
     })
     await newLog.save()
     res.send(newLog)
-})
-
-route.delete('/Sentence/:id', async function (req, res){
-    const {id} = req.params
-    const removed = await Sentence.findByIdAndRemove(id)
-    res.send(removed)
 })
 
 module.exports = route

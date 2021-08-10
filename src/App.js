@@ -23,6 +23,7 @@ function App() {
 
     setOpen(false);
   };
+
   return (
     <div className="App">
       <SideBar

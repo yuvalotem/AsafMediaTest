@@ -11,22 +11,16 @@
     width: 99vw;
     height: 92vh;
 }
-.cell{
-    width: 20vw;
-    height: 20vw;
-}
 .pirate{
-    width: 750px;
-    height: 500px;
+    width: 93px;
+    height: 140px;
     position: absolute;
-    top: 15%;
-    left: 25%;
     transition: 2s;
 }
 @media only screen and (max-width: 900px) {
     #board{
-        width: 107vw;
-        height: 92vh;
+        width: 100vw;
+        height: 84vh;
         padding-left: 0vw;
         background-size: "2000px 800px";
         background-position: -300px -50px;

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React from 'react'
 import WindowDimensions from './hooks/WindowDimensions'
 import './Board.css';
 import pirate from './assets/pirate.png'
@@ -6,14 +6,14 @@ import pirate from './assets/pirate.png'
 
   function Board(props) {
       const { number, screen } = props
-      const { width } = WindowDimensions();
+      const { width, height } = WindowDimensions();
       const isMobile = width < 1000
 
       const imageSize = {
-        backgroundSize: isMobile ? "2000px 800px" : '2500px 1200px'
+        backgroundSize: isMobile ? "275% 230%" : '165% 180%'
       }
       const fullScreen = {
-        backgroundSize: isMobile ? '1050px 548px': '1500px 848px',
+        backgroundSize: isMobile ? '150% 180%': '98% 120%',
         backgroundPosition: isMobile ? "-100px -50px" : null
     }
       const leftPartScreen = {
@@ -35,69 +35,69 @@ import pirate from './assets/pirate.png'
 
       const positionsSmallScreen =[
           {
-            top: isMobile ? "-10%" : "23%",
-            left: isMobile ? "5%" : "430px",
+            top: isMobile ? "5%" : "34%",
+            left: isMobile ? "15%" : "34%",
           },
           {
-            top: isMobile ? "-10%" : "15%",
-            left: isMobile ? "5%" :"400px",
+            top: isMobile ? "5%" : "26%",
+            left: isMobile ? "8%" :"32%",
           },
           {
-            top: isMobile ? "5%" : "35%",
-            left:  isMobile ? "68%" : "1000px",
+            top: isMobile ? "17%" : "42%",
+            left:  isMobile ? "73%" : "72%",
           },
           {
-            top: isMobile ? "28%" : "50%",
-            left: isMobile ? "8%" :"450px",
+            top: isMobile ? "41%" : "60%",
+            left: isMobile ? "12%" :"35%",
           },
           {
-            top: isMobile ? "45%" : "60%",
-            left: isMobile ? "8%" : "550px",
+            top: isMobile ? "60%" : "70%",
+            left: isMobile ? "20%" : "43%",
           },
           {
-            top: isMobile ? "40%" : "58%",
-            left: isMobile ? "480px" : "1000px",
+            top: isMobile ? "50%" : "65%",
+            left: "70%",
           }
       ]
       const pirateSizeFullScreen =
         {
-            width: "500px",
-            height: "250px"
+            width: "41px",
+            height: "70px"
         }
       const positionsFullScreen =[
           {
             ...pirateSizeFullScreen,
-            top: isMobile? "13%" : "23%",
-            left: isMobile? "1%" : "290px",
+            top: isMobile? "25%" : "28%",
+            left: isMobile? "10%" : "23.5%",
           },
           {
             ...pirateSizeFullScreen,
-            top: isMobile? "7%" : "18%",
-            left: isMobile? "31%" : "570px",
+            top: isMobile? "18%" : "24%",
+            left: isMobile? "38%" : "41.5%",
           },
           {
             ...pirateSizeFullScreen,
-            top: isMobile? "20%" :"25%",
-            left: isMobile? "70%" :"930px",
+            top: isMobile? "31%" :"32%",
+            left: isMobile? "75%" :"65%",
           },
           {
             ...pirateSizeFullScreen,
-            top: isMobile? "40%" : "45%",
-            left: isMobile? "33%" : "600px",
+            top: isMobile? "49%" : "46%",
+            left: isMobile? "42%" : "44%",
           },
           {
             ...pirateSizeFullScreen,
-            top: "55%",
-            left: isMobile? "2%" :"300px",
+            top: isMobile? "75%" : "62%",
+            left: isMobile? "12%" :"24%",
           },
           {
             ...pirateSizeFullScreen,
-            top: "55%",
-            left: isMobile? "65%" :"920px"
+            top: isMobile? "68%" : "60%",
+            left: isMobile? "74%" :"65%"
           }
       ]
 
-      if(window.innerHeight < window.innerWidth){
+      if(height < width){
           return (
             <div id="board" style={
                 screen === 'full' ? fullScreen :
@@ -108,31 +108,6 @@ import pirate from './assets/pirate.png'
               positionsFullScreen[number-1]:
               positionsSmallScreen[number-1]}
               src={pirate} className="pirate" />
-              {/* {(number === 1 ||  number === 5)  & screen !== 'full' ?
-                  <Fragment>
-                      <div class="cell"></div>
-                      <div class="cell"><img src={barrel} id="barrel" /></div>
-                      <div class="cell"><img src={bottel} id="bottel" /></div>
-                      <div class="cell"><img src={treasue} id="treasue" /></div>
-                  </Fragment>
-                  : screen !== 'full' ?
-                  <Fragment>
-                      <div class="cell"><img src={barrel} id="barrel" /></div>
-                      <div class="cell"><img src={Dragon} id="Dragon" /></div>
-                      <div class="cell"><img src={treasue} id="treasue" /></div>
-                      <div class="cell"><img src={island} id="island" /></div>
-                  </Fragment>
-                  :
-                  <Fragment>
-                      <div class="cell"></div>
-                      <div class="cell"><img src={barrel} id="barrel" /></div>
-                      <div class="cell"><img src={Dragon} id="Dragon" /></div>
-                      <div class="cell"><img src={bottel} id="bottel" /></div>
-                      <div class="cell"><img src={treasue} id="treasue" /></div>
-                      <div class="cell"><img src={island} id="island" /></div>
-                  </Fragment>
-                  } */}
-
             </div>
           );
       }else{

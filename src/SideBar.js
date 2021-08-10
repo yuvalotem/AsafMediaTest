@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CssBaseline,
   Divider,
@@ -11,26 +11,17 @@ import {
   ListItemIcon,
   ListItemText,
   Toolbar,
-  Typography,
   Grid,
-  Avatar
+  Button
 } from '@material-ui/core'
 import Axios from 'axios';
 import {
-  Home as HomeIcon,
-  Event as EventIcon,
   Menu as MenuIcon,
-  TrendingUp as TrendingUpIcon,
-  ExitToApp as ExitToAppIcon,
   Settings as SettingsIcon,
-  Group as GroupIcon,
-  Chat,
-  Info as InfoIcon
 } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
-import MapIcon from '@material-ui/icons/Map';
-import CasinoIcon from '@material-ui/icons/Casino';
+import PanToolOutlinedIcon from '@material-ui/icons/PanToolOutlined';
 import dice1 from './assets/dice1.jpg'
 import dice2 from './assets/dice2.jpg'
 import dice3 from './assets/dice3.jpg'
@@ -99,6 +90,14 @@ const useStyles = makeStyles((theme) => ({
   small: {
     width: theme.spacing(3),
     height: theme.spacing(3),
+  },
+  dice: {
+    paddingLeft: "30%",
+    width: "100px",
+    hieght:"100px"
+  },
+  rollButton: {
+    backgroundColor: "orange"
   }
 }))
 
@@ -106,7 +105,7 @@ const dices = [dice1, dice2, dice3, dice4, dice5, dice6]
 
 const SideBar = props => {
 
-  const { window, handleLogout, number,
+  const { window, number,
     setNumber, screen, setScreen,
     setMessage, setMessageType, openMessage } = props
   const classes = useStyles()
@@ -123,19 +122,10 @@ const SideBar = props => {
     openMessage()
   }
 
-//   useEffect(() => {
-//     const fetchPicsFromDB = async () => {
-//         const response = await Axios.get('http://localhost:4000/log')
-//         console.log(response.data);
-//       }
-//     fetchPicsFromDB()
-// }, [])
-
-
-  const diceRoll = () => {
-    mobileOpen === true && handleDrawerToggle()
+  const diceRoll = async () => {
+    mobileOpen && handleDrawerToggle()
     const cubeNumber = Math.floor(Math.random() * 6) + 1
-    const response = Axios.post('http://localhost:4000/log', {action: "player rolled " + cubeNumber})
+    // const response = Axios.post('http://localhost:4000/log', {action: "player rolled " + cubeNumber})
     setNumber(cubeNumber)
     if(cubeNumber === 1){
         makeAlert("You stayed at the same place, Game over!" , 'error')
@@ -154,7 +144,8 @@ const SideBar = props => {
         makeAlert("Treasure, You Win!" , 'success')
     }
     if(cubeNumber === 5){
-        makeAlert("Funny sentence" , 'info')
+        const response = await Axios.get('http://localhost:4000/sentence')
+        makeAlert(response.data[0].sentence , 'info')
     }
     if(cubeNumber === 6){
         makeAlert("Youve made it to land, You Win!" , 'success')
@@ -165,47 +156,29 @@ const SideBar = props => {
     <div>
       <div className={classes.toolbar} />
       <List>
-        <Link to='/home/profile'
-          onClick={diceRoll}
-          className={classes.link}>
-          <ListItem button key='img'>
-            <ListItemIcon>
-              <CasinoIcon />
-            </ListItemIcon>
-            <ListItemText primary='Roll The Dice' />
-          </ListItem>
-        </Link>
-        <Link to='/home/properties'
-          onClick={()=> setScreen(screen === "full" ? "part" : "full")}
+      <Link to="/"
+          onClick={()=> {
+            setScreen(screen === "full" ? "part" : "full")
+            mobileOpen && handleDrawerToggle()
+          }}
           className={classes.link}>
           <ListItem button key='Home'>
             <ListItemIcon>
-              <MapIcon />
+              <PanToolOutlinedIcon />
             </ListItemIcon>
             <ListItemText primary={screen === "part" ? 'Browse Map' : 'Go Back'} />
           </ListItem>
         </Link>
-        <Link to='/home/calendar'
-          onClick={() => localStorage.setItem('currentRoute', '/home/calendar')}
-          className={classes.link}>
-          <ListItem button key='Calendar'>
-            <ListItemIcon>
-              <img style={{width: "20px", hieght: "20px"}} src={dices[number-1]} />
-            </ListItemIcon>
-            <ListItemText primary={number} />
-          </ListItem>
-        </Link>
 
-        <Link to='/home/chat'
-          onClick={() => localStorage.setItem('currentRoute', '/home/chat')}
-          className={classes.link}>
-          <ListItem button key='Chat'>
-            <ListItemIcon>
-              <Chat />
-            </ListItemIcon>
-            <ListItemText primary='Chat' />
+
+          <ListItem button key='img'>
+              <Button onClick={diceRoll} variant="contained" color="secondary">Roll Dice</Button>
           </ListItem>
-        </Link>
+
+          <ListItem key='Calendar'>
+              <img className={classes.dice} src={dices[number-1]} />
+          </ListItem>
+
       </List>
       <Divider />
       <List>
@@ -219,22 +192,6 @@ const SideBar = props => {
                     <ListItemText primary='Settings'/>
                 </ListItem>
           </Link>
-          <Link to='/home/aboutus'
-            onClick={() => localStorage.setItem('currentRoute', '/home/aboutus')}
-            className={classes.link}>
-                <ListItem button key='About'>
-                    <ListItemIcon>
-                      <InfoIcon />
-                    </ListItemIcon>
-                    <ListItemText primary='About Us'/>
-                </ListItem>
-          </Link>
-            <ListItem button key={'Log Out'} onClick={handleLogout}>
-                <ListItemIcon>
-                    <ExitToAppIcon />
-                </ListItemIcon>
-                <ListItemText primary={'Log Out'} />
-            </ListItem>
         </List>
     </div>
   )
@@ -256,12 +213,7 @@ const SideBar = props => {
             >
               <MenuIcon />
             </IconButton>
-            <div className={classes.mainAppBar}>
-              {/* <img src={logo} className={classes.logo} /> */}
-              <Typography variant="h6" noWrap className={classes.welcoming}>
-                {/* {`Welcome, ${user.firstName}`} */}
-              </Typography>
-            </div>
+
           </Toolbar>
         </AppBar>
       </Grid>
