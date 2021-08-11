@@ -76,28 +76,26 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     width: drawerWidth,
   },
-  mainAppBar: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 4fr',
-    alignItems: 'center',
-    width: '100%'
-  },
-  welcoming: {
-    fontFamily: "'Montserrat', sans-serif",
-    justifySelf: 'end',
-    alignSelf: 'end'
-  },
-  small: {
-    width: theme.spacing(3),
-    height: theme.spacing(3),
-  },
   dice: {
     paddingLeft: "30%",
     width: "100px",
     hieght:"100px"
   },
   rollButton: {
-    backgroundColor: "orange"
+    backgroundColor: "#e67f00",
+    marginLeft: "25px",
+    marginTop: "35%",
+    "&:hover": {
+      background: "#c97004"
+    }
+  },
+  panToll: {
+    width:"55px",
+    hieght:"55px",
+    marginLeft: "50px"
+  },
+  mapText: {
+    fontSize: "10px",
   }
 }))
 
@@ -105,8 +103,8 @@ const dices = [dice1, dice2, dice3, dice4, dice5, dice6]
 
 const SideBar = props => {
 
-  const { window, number,
-    setNumber, screen, setScreen,
+  const { window, number, setNumber,
+    game, setGame, screen, setScreen,
     setMessage, setMessageType, openMessage } = props
   const classes = useStyles()
   const theme = useTheme()
@@ -126,29 +124,30 @@ const SideBar = props => {
     mobileOpen && handleDrawerToggle()
     const cubeNumber = Math.floor(Math.random() * 6) + 1
     // const response = Axios.post('http://localhost:4000/log', {action: "player rolled " + cubeNumber})
+    setGame(false)
     setNumber(cubeNumber)
     if(cubeNumber === 1){
-        makeAlert("You stayed at the same place, Game over!" , 'error')
+        makeAlert("stayed at the same place, Game over!" , 'error')
     }
     if(cubeNumber === 2){
         if(Math.floor(Math.random() * 2) == 0){
-            makeAlert("You drank spoiled rom, Game over!" , 'error')
+            makeAlert("drank spoiled rom, Game over!" , 'error')
         }else{
-            makeAlert("You drank Good rom, You Win!" , 'success')
+            makeAlert("drank Good rom, You Win!" , 'success')
         }
     }
     if(cubeNumber === 3){
-        makeAlert("Dragon, Game over!" , 'error')
+        makeAlert("meet the dragon, Game over!" , 'error')
     }
     if(cubeNumber === 4){
-        makeAlert("Treasure, You Win!" , 'success')
+        makeAlert("found the treasure, You Win!" , 'success')
     }
     if(cubeNumber === 5){
         const response = await Axios.get('http://localhost:4000/sentence')
         makeAlert(response.data[0].sentence , 'info')
     }
     if(cubeNumber === 6){
-        makeAlert("Youve made it to land, You Win!" , 'success')
+        makeAlert("made it to land, You Win!" , 'success')
     }
   }
 
@@ -164,18 +163,24 @@ const SideBar = props => {
           className={classes.link}>
           <ListItem button key='Home'>
             <ListItemIcon>
-              <PanToolOutlinedIcon />
+              <PanToolOutlinedIcon className={classes.panToll} />
             </ListItemIcon>
-            <ListItemText primary={screen === "part" ? 'Browse Map' : 'Go Back'} />
+            <span className={classes.mapText}>
+                {screen === "part" ? 'Browse Map' : 'Small Map'}
+              </span>
           </ListItem>
         </Link>
 
-
-          <ListItem button key='img'>
-              <Button onClick={diceRoll} variant="contained" color="secondary">Roll Dice</Button>
+          <ListItem>
+              <Button
+              className={classes.rollButton}
+              disabled={!game}
+              onClick={diceRoll}
+              variant="contained"
+              >Roll Dice</Button>
           </ListItem>
 
-          <ListItem key='Calendar'>
+          <ListItem>
               <img className={classes.dice} src={dices[number-1]} />
           </ListItem>
 

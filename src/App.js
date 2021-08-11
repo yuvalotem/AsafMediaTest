@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import SideBar from './SideBar';
 import Board from './Board';
 import './App.css';
-import { Snackbar } from '@material-ui/core';
+import { Snackbar, Button } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 
 function App() {
@@ -11,6 +11,14 @@ function App() {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
+  const [game, setGame] = useState(true);
+
+  const newGame = () => {
+    setNumber(1)
+    setScreen('part')
+    setOpen(false)
+    setGame(true)
+  };
 
   const openMessage = () => {
     setOpen(true);
@@ -29,6 +37,8 @@ function App() {
       <SideBar
       number={number}
       setNumber={setNumber}
+      game={game}
+      setGame={setGame}
       screen={screen}
       setScreen={setScreen}
       setMessage={setMessage}
@@ -40,9 +50,10 @@ function App() {
       screen={screen}
       setScreen={setScreen}
       />
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+      <Snackbar open={open} onClose={handleClose}>
             <Alert onClose={handleClose} severity={messageType}>
-            {message}
+            <div>You rolled {number} and {message}</div>
+            <a href="#" onClick={newGame}>start again</a>
             </Alert>
       </Snackbar>
     </div>
