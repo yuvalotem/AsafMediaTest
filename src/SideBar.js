@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import './SideBar.css';
 import {
   CssBaseline,
   Divider,
@@ -28,6 +29,8 @@ import dice3 from './assets/dice3.jpg'
 import dice4 from './assets/dice4.jpg'
 import dice5 from './assets/dice5.jpg'
 import dice6 from './assets/dice6.jpg'
+import successSound from './sounds/success-sound.mp3'
+import failSound from './sounds/fail-sound.mp3'
 
 
 const drawerWidth = 200;
@@ -103,12 +106,14 @@ const dices = [dice1, dice2, dice3, dice4, dice5, dice6]
 
 const SideBar = props => {
 
-  const { window, number, setNumber,
+  const { number, setNumber,
     game, setGame, screen, setScreen,
     setMessage, setMessageType, openMessage } = props
   const classes = useStyles()
   const theme = useTheme()
   const [mobileOpen, setMobileOpen] = useState(false);
+  const successAudio = new Audio(successSound);
+  const failAudio = new Audio(failSound);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -127,26 +132,33 @@ const SideBar = props => {
     setGame(false)
     setNumber(cubeNumber)
     if(cubeNumber === 1){
+        failAudio.play()
         makeAlert("stayed at the same place, Game over!" , 'error')
     }
     if(cubeNumber === 2){
         if(Math.floor(Math.random() * 2) == 0){
+            failAudio.play()
             makeAlert("drank spoiled rom, Game over!" , 'error')
         }else{
+            successAudio.play()
             makeAlert("drank Good rom, You Win!" , 'success')
         }
     }
     if(cubeNumber === 3){
+        failAudio.play()
         makeAlert("meet the dragon, Game over!" , 'error')
     }
     if(cubeNumber === 4){
+        successAudio.play()
         makeAlert("found the treasure, You Win!" , 'success')
     }
     if(cubeNumber === 5){
+        successAudio.play()
         const response = await Axios.get('http://localhost:4000/sentence')
         makeAlert(response.data[0].sentence , 'info')
     }
     if(cubeNumber === 6){
+        successAudio.play()
         makeAlert("made it to land, You Win!" , 'success')
     }
   }
@@ -161,7 +173,7 @@ const SideBar = props => {
             mobileOpen && handleDrawerToggle()
           }}
           className={classes.link}>
-          <ListItem button key='Home'>
+          <ListItem button>
             <ListItemIcon>
               <PanToolOutlinedIcon className={classes.panToll} />
             </ListItemIcon>
@@ -201,12 +213,10 @@ const SideBar = props => {
     </div>
   )
 
-  const container = window !== undefined ? () => window().document.body : undefined;
-
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <Grid className={classes.appBarContainer} container>
+      <Grid className={classes.appBarContainer} >
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar className={classes.tool}>
             <IconButton
@@ -225,16 +235,12 @@ const SideBar = props => {
       <nav className={classes.drawer} aria-label="mailbox folders">
         <Hidden mdUp implementation="css">
           <Drawer
-            container={container}
             variant="temporary"
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
               paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true,
             }}
           >
             {drawer}

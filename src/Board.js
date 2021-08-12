@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState ,useEffect} from 'react'
 import WindowDimensions from './hooks/WindowDimensions'
 import './Board.css';
 import pirate from './assets/pirate.png'
@@ -9,9 +9,10 @@ import pirate from './assets/pirate.png'
       const { width, height } = WindowDimensions();
       const isMobile = width < 1000
 
-      const imageSize = {
+      const [imageSize, setImageSize] =useState({
         backgroundSize: isMobile ? "275% 230%" : '165% 180%'
-      }
+      })
+
       const fullScreen = {
         backgroundSize: isMobile ? '150% 180%': '98% 120%',
         backgroundPosition: isMobile ? "-100px -50px" : null
@@ -96,6 +97,24 @@ import pirate from './assets/pirate.png'
             left: isMobile? "74%" :"65%"
           }
       ]
+
+      const handleKeyDown = event =>{
+        let backgroundHeight = parseInt(imageSize.backgroundSize[0] + imageSize.backgroundSize[1] + imageSize.backgroundSize[2])
+        let backgroundWidth = parseInt(imageSize.backgroundSize[5] + imageSize.backgroundSize[6] + imageSize.backgroundSize[7])
+        if(event.keyCode == 107){
+          backgroundHeight += 5
+          backgroundWidth += 5
+          setImageSize({backgroundSize: backgroundHeight + "% " + backgroundWidth + "%"})
+        }else if(event.keyCode == 109){
+          backgroundHeight -= 5
+          backgroundWidth -= 5
+          setImageSize({backgroundSize: backgroundHeight + "% " + backgroundWidth + "%"})
+        }
+      }
+
+      useEffect(()=>{
+        document.addEventListener("keydown", handleKeyDown);
+      }, [])
 
       if(height < width){
           return (

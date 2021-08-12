@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import SideBar from './SideBar';
 import Board from './Board';
 import './App.css';
-import { Snackbar, Button } from '@material-ui/core';
+import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 
 function App() {
@@ -52,7 +52,7 @@ function App() {
       />
       <Snackbar open={open} onClose={handleClose}>
             <Alert onClose={handleClose} severity={messageType}>
-            <div>You rolled {number} and {message}</div>
+            <div>{number!== 5 ? "You rolled " + number + " and " + message : message}</div>
             <a href="#" onClick={newGame}>start again</a>
             </Alert>
       </Snackbar>

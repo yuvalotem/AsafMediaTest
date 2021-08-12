@@ -1,0 +1,48 @@
+.root {
+    display: 'flex';
+  }
+.logo {
+    height: '45px';
+}
+.drawer {
+    width: drawerWidth;
+    flex-shrink: 0
+}
+.tool {
+    display: 'flex';
+    justify-content: 'space-between';
+    align-content: 'center';
+    padding-top: '5px';
+    padding-bottom: '5px'
+}
+  .link{
+    text-decoration: 'none';
+    color: 'inherit'
+  }
+  .appBar{
+    background-color: '#023047'
+  }
+  .appBarContainer {
+    margin-bottom: 60px;
+  }
+ .drawerPaper {
+    width: 200;
+  }
+  .dice{
+    padding-left: 30%;
+    width: 100px;
+    height: 100px;
+  }
+  .rollButton {
+    background-color: #e67f00;
+    margin-left: 25px;
+    margin-top: 35%;
+  }
+  .panToll {
+    width:55px;
+    height:55px;
+    margin-Left: 50px;
+  }
+  .mapText {
+    font-size: 10px,
+  }
