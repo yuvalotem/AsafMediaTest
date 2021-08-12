@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import './SideBar.css';
 import {
   CssBaseline,
@@ -38,12 +38,6 @@ const drawerWidth = 200;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-  },
-  logo: {
-    height: '45px',
-    [theme.breakpoints.up('md')]: {
-      height: '60px',
-    },
   },
   drawer: {
     width: drawerWidth,
@@ -99,6 +93,9 @@ const useStyles = makeStyles((theme) => ({
   },
   mapText: {
     fontSize: "10px",
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: '70px',
+    },
   }
 }))
 
@@ -125,41 +122,51 @@ const SideBar = props => {
     openMessage()
   }
 
+  const serverRequest = (data) =>{
+        Axios.post('http://localhost:4000/log', {action: data})
+  }
+
   const diceRoll = async () => {
     mobileOpen && handleDrawerToggle()
     const cubeNumber = Math.floor(Math.random() * 6) + 1
-    // const response = Axios.post('http://localhost:4000/log', {action: "player rolled " + cubeNumber})
     setGame(false)
     setNumber(cubeNumber)
     if(cubeNumber === 1){
         failAudio.play()
         makeAlert("stayed at the same place, Game over!" , 'error')
+        serverRequest("player rolled 1 and Game over")
     }
     if(cubeNumber === 2){
-        if(Math.floor(Math.random() * 2) == 0){
+        if(Math.floor(Math.random() * 2) === 0){
             failAudio.play()
             makeAlert("drank spoiled rom, Game over!" , 'error')
+            serverRequest("player rolled 2, drank spoiled rom and Game over")
         }else{
             successAudio.play()
             makeAlert("drank Good rom, You Win!" , 'success')
+            serverRequest("player rolled 2, drank good rom and won the game")
         }
     }
     if(cubeNumber === 3){
         failAudio.play()
-        makeAlert("meet the dragon, Game over!" , 'error')
+        makeAlert("met the dragon, Game over!" , 'error')
+        serverRequest("player rolled 3, and met the dragon, Game over")
     }
     if(cubeNumber === 4){
         successAudio.play()
         makeAlert("found the treasure, You Win!" , 'success')
+        serverRequest("player rolled 4, found the treasure and won the game")
     }
     if(cubeNumber === 5){
         successAudio.play()
         const response = await Axios.get('http://localhost:4000/sentence')
         makeAlert(response.data[0].sentence , 'info')
+        serverRequest("player rolled 5, found the bottel and got a sentence")
     }
     if(cubeNumber === 6){
         successAudio.play()
         makeAlert("made it to land, You Win!" , 'success')
+        serverRequest("player rolled 6, made it to land and won the game")
     }
   }
 
@@ -177,10 +184,10 @@ const SideBar = props => {
             <ListItemIcon>
               <PanToolOutlinedIcon className={classes.panToll} />
             </ListItemIcon>
+          </ListItem>
             <span className={classes.mapText}>
                 {screen === "part" ? 'Browse Map' : 'Small Map'}
               </span>
-          </ListItem>
         </Link>
 
           <ListItem>
@@ -193,7 +200,7 @@ const SideBar = props => {
           </ListItem>
 
           <ListItem>
-              <img className={classes.dice} src={dices[number-1]} />
+              <img alt="" className={classes.dice} src={dices[number-1]} />
           </ListItem>
 
       </List>

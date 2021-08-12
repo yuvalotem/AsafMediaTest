@@ -53,7 +53,7 @@ function App() {
       <Snackbar open={open} onClose={handleClose}>
             <Alert onClose={handleClose} severity={messageType}>
             <div>{number!== 5 ? "You rolled " + number + " and " + message : message}</div>
-            <a href="#" onClick={newGame}>start again</a>
+            <span style={{cursor: "pointer", color: "blue", textDecoration: "underline"}} onClick={newGame}>start again</span>
             </Alert>
       </Snackbar>
     </div>

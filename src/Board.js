@@ -2,16 +2,19 @@ import React, {useState ,useEffect} from 'react'
 import WindowDimensions from './hooks/WindowDimensions'
 import './Board.css';
 import pirate from './assets/pirate.png'
-
+import Axios from 'axios';
 
   function Board(props) {
       const { number, screen } = props
       const { width, height } = WindowDimensions();
       const isMobile = width < 1000
+      // const [imageSize, setImageSize] =useState({
+      //   backgroundSize: isMobile ? "275% 230%" : '165% 180%'
+      // })
 
-      const [imageSize, setImageSize] =useState({
+      const imageSize = {
         backgroundSize: isMobile ? "275% 230%" : '165% 180%'
-      })
+      }
 
       const fullScreen = {
         backgroundSize: isMobile ? '150% 180%': '98% 120%',
@@ -99,20 +102,25 @@ import pirate from './assets/pirate.png'
       ]
 
       const handleKeyDown = event =>{
-        let backgroundHeight = parseInt(imageSize.backgroundSize[0] + imageSize.backgroundSize[1] + imageSize.backgroundSize[2])
-        let backgroundWidth = parseInt(imageSize.backgroundSize[5] + imageSize.backgroundSize[6] + imageSize.backgroundSize[7])
-        if(event.keyCode == 107){
-          backgroundHeight += 5
-          backgroundWidth += 5
-          setImageSize({backgroundSize: backgroundHeight + "% " + backgroundWidth + "%"})
-        }else if(event.keyCode == 109){
-          backgroundHeight -= 5
-          backgroundWidth -= 5
-          setImageSize({backgroundSize: backgroundHeight + "% " + backgroundWidth + "%"})
-        }
+        // let backgroundHeight = parseInt(imageSize.backgroundSize[0] + imageSize.backgroundSize[1] + imageSize.backgroundSize[2])
+        // let backgroundWidth = parseInt(imageSize.backgroundSize[5] + imageSize.backgroundSize[6] + imageSize.backgroundSize[7])
+        // if(event.keyCode == 107){
+        //   backgroundHeight += 5
+        //   backgroundWidth += 5
+        //   setImageSize({backgroundSize: backgroundHeight + "% " + backgroundWidth + "%"})
+        // }else if(event.keyCode == 109){
+        //   backgroundHeight -= 5
+        //   backgroundWidth -= 5
+        //   setImageSize({backgroundSize: backgroundHeight + "% " + backgroundWidth + "%"})
+        // }
       }
 
       useEffect(()=>{
+      //   const fetchLogsFromDB = async () => {
+      //     const response = await Axios.get('http://localhost:4000/logs')
+      //     console.log(response.data);
+      // }
+      // fetchLogsFromDB()
         document.addEventListener("keydown", handleKeyDown);
       }, [])
 
@@ -123,7 +131,7 @@ import pirate from './assets/pirate.png'
                 number === 5 ? lowPartScreen :
                 number === 6 ? lowRightPartScreen :
                 number !== 1 ? leftPartScreen && rightPartScreen : leftPartScreen}>
-              <img style={screen === 'full' ?
+              <img alt="" style={screen === 'full' ?
               positionsFullScreen[number-1]:
               positionsSmallScreen[number-1]}
               src={pirate} className="pirate" />

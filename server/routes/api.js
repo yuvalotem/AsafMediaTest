@@ -17,6 +17,10 @@ route.get('/sentence', async function (req, res){
     const sentence = await Sentence.find({number: Math.floor(Math.random() * 5) + 1})
     res.send(sentence)
 })
+route.get('/logs', async function (req, res){
+    const logs = await Log.find({})
+    res.send(logs)
+})
 
 route.post("/log", async (req, res) => {
     const { action } = req.body
